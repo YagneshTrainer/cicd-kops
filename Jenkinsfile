@@ -39,7 +39,15 @@ pipeline {
         stage('Kubernetes Deploy') {
             agent { label 'KOPS' }
             steps {
-                sh "helm upgrade --install --force innovative-stack helm/innovativecharts --set appimage=${registry}:Innovative${BUILD_ID} --namespace prod"
+                script {
+                    echo "Running Kubernetes Deploy stage..."
+                    sh "kubectl config get-contexts"
+                    echo "Helm version:"
+                    sh "helm version"
+                    echo "Deploying to Kubernetes..."
+                    sh "helm upgrade --install --force innovative-stack helm/innovativecharts --set appimage=${registry}:Innovative${BUILD_ID} --namespace prod"
+                    echo "Deployment completed."
+                }
             }
         }
     }
