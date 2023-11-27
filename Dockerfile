@@ -1,20 +1,12 @@
-FROM rockylinux:8
+FROM tomcat:9.0.83-jdk8
+LABEL "Project"="academy"
+LABEL "Author"="Yagnesh"
 
-MAINTAINER hello@gritfy.com
-
-RUN mkdir /opt/tomcat/
-
-WORKDIR /opt/tomcat
-
-RUN curl -o https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.83/bin/apache-tomcat-9.0.83.tar.gz
-RUN tar xvzf apache-tomcat.tar.gz
-RUN mv apache-tomcat-9.0.79/* /opt/tomcat/.
-RUN yum -y install java
-RUN java -version
-
-WORKDIR /opt/tomcat
-RUN rm -rf /opt/tomcat/webapps/*
-COPY target/vprofile-v2.war /opt/tomcat/webapps/ROOT.war
+WORKDIR /usr/local/tomcat/
+RUN rm -rf /usr/local/tomcat/webapps/*
+COPY vprofile-v2.war /usr/local/tomcat/webapps/ROOT.war
+# Above command trys to copy the artifact file from present working directory
 
 EXPOSE 8080
-CMD ["/opt/tomcat/bin/catalina.sh", "run"]
+CMD ["catalina.sh", "run"]
+VOLUME /usr/local/tomcat/webapps
