@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        registry = "innovativeacademy"
+        registry = "innovativeacademy/innovativeapp"
         registryCredentials = 'Dockerhub'
     }
     stages {
